@@ -1,6 +1,6 @@
 trigger: none 
 
-pool: Default
+pool: ci agent
 
 jobs:
 

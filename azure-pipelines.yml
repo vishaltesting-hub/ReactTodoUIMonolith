@@ -2,6 +2,8 @@ trigger: none
 
 pool: Default
 
+jobs:
+
 - job: build
   displayName: Build
   steps:

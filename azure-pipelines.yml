@@ -19,14 +19,20 @@ jobs:
       cliProjectName: '1st_project'
       cliSources: 'src'
       extraProperties: |
+        sonar.branch.name= main
         sonar.exclusions=**/node_modules/**,**/build/**,**/dist/**
-        sonar.javascript.lcov.reportPaths=coverage/lcov.info
+
   - task: SonarQubeAnalyze@8
     inputs:
       jdkversion: 'JAVA_HOME_17_X64'
 
+  - task: SonarQubePublish@8
+    inputs:
+      pollingTimeoutSec: '300'
+
 - job: build
   displayName: Build
+  dependsOn: Sast_Scanning
   steps:
   - task: NodeTool@0
     inputs:

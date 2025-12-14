@@ -4,6 +4,27 @@ pool: ci agent
 
 jobs:
 
+- job: Sast_Scanning
+  displayName: SonarQube scan
+
+  steps:
+  - checkout: self
+
+  - task: SonarQubePrepare@8
+    inputs:
+      SonarQube: 'Sonar_SC'
+      scannerMode: 'cli'
+      configMode: 'manual'
+      cliProjectKey: '1st_project'
+      cliProjectName: '1st_project'
+      cliSources: 'src'
+      extraProperties: |
+        sonar.exclusions=**/node_modules/**,**/build/**,**/dist/**
+        sonar.javascript.lcov.reportPaths=coverage/lcov.info
+  - task: SonarQubeAnalyze@8
+    inputs:
+      jdkversion: 'JAVA_HOME_17_X64'
+
 - job: build
   displayName: Build
   steps:

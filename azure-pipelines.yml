@@ -6,6 +6,12 @@ pool: ci agent
 jobs:
 
 - job: Sast_Scanning
+# parallelisum
+#  pool: 
+#   name: ci agent
+#   demands:
+#    - Agent.Name -equals vm-agent
+   
   displayName: SonarQube scan
 
   steps:

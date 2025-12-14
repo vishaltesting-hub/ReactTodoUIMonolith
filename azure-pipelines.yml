@@ -11,27 +11,28 @@ jobs:
   - checkout: self
 
   - task: SonarQubePrepare@8
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    displayName: Prepare SonarQube
     inputs:
       SonarQube: 'Sonar_SC'
-      scannerMode: 'cli'
+      scannerMode: 'CLI'
       configMode: 'manual'
       cliProjectKey: '1st_project'
       cliProjectName: '1st_project'
-      cliSources: 'src'
+      cliSources: '.'
       extraProperties: |
-        sonar.exclusions=**/node_modules/**,**/build/**,**/dist/**
+        sonar.language=js
+        sonar.sourceEncoding=UTF-8
+        sonar.exclusions=node_modules/*,public/,.vscode/*
 
   - task: SonarQubeAnalyze@8
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-    inputs:
-      jdkversion: 'JAVA_HOME_17_X64'
+    displayName: Run SonarQube
 
   - task: SonarQubePublish@8
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    displayName: Publish 
     inputs:
       pollingTimeoutSec: '300'
-      
+
+
 - job: build
   displayName: Build
   dependsOn: Sast_Scanning
